@@ -22,6 +22,9 @@ set(PROJECT_SOURCES
         email.h
         databasehandler.h
         databasehandler.cpp
+        emailbanner.ui
+        emailbanner.h
+        emailbanner.cpp
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)

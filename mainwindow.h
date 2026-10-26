@@ -6,6 +6,7 @@
 QT_BEGIN_NAMESPACE
 namespace Ui {
 class MainWindow;
+class QListWidget;
 }
 QT_END_NAMESPACE
 
@@ -19,5 +20,6 @@ public:
 
 private:
     Ui::MainWindow *ui;
+    void populateInbox(int limit = 50);
 };
 #endif // MAINWINDOW_H

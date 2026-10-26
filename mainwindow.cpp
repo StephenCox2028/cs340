@@ -1,6 +1,7 @@
 #include "mainwindow.h"
 #include "./ui_mainwindow.h"
 #include "databasehandler.h"
+#include "emailbanner.h"
 #include <iostream>
 
 MainWindow::MainWindow(QWidget *parent)
@@ -8,7 +9,7 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-
+    populateInbox();
 
     //Loads the DatabaseHandler and loads emails. The limit is 5. Once the database is fully completed, we can expand the limit.
     DatabaseHandler dbHandler;
@@ -49,4 +50,24 @@ MainWindow::MainWindow(QWidget *parent)
 MainWindow::~MainWindow()
 {
     delete ui;
+}
+
+void MainWindow::populateInbox(int limit)
+{
+    qDebug() << "Hello";
+    DatabaseHandler db;
+    const QList<Email> emails = db.loadEmails(limit);
+
+    ui->inboxList->clear();
+    for (const Email &email : emails) {
+        auto *banner = new EmailBanner(email);
+        auto *item = new QListWidgetItem(ui->inboxList);
+        item->setSizeHint(QSize(0, banner->height()));
+        ui->inboxList->setItemWidget(item, banner);
+
+        connect(banner, &EmailBanner::clicked, this, [](int id)
+        {
+            qDebug() << "Open email" << id;
+        });
+    }
 }
